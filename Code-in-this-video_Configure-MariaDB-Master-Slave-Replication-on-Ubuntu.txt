@@ -1,6 +1,10 @@
 ### Replace  #Hostname = Your-Hostname #IP = Your-IP
 
 ### on Master Server ###
+create user rep_user@"%" identified by "Anfac@1999@";
+grant replication slave on *.* to rep_user@"%";
+flush privileges;
+show master status\G;
 
 bind-address = IP-Master-Server
 server-id=1
@@ -30,3 +34,5 @@ master_user='Your-Username',
 master_password='Your-Password',
 master_log_file='Your-File-Name',
 master_log_pos=You-Number;
+
+show slave status\G;
