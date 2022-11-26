@@ -6,6 +6,8 @@ grant replication slave on *.* to rep_user@"%";
 flush privileges;
 show master status\G;
 
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf 
+
 bind-address = IP-Master-Server
 server-id=1
 report_host=Hostname-Master-Server
@@ -16,7 +18,8 @@ log_bin_index=/var/log/mysql/mariadb-bin.index
 relay_log=/var/log/mysql/relay-bin
 relay_log_index=/var/log/mysql/relay-bin.index
 
-### on Master Server ###
+### on Slave Server ###
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf 
 
 bind-address = IP-Slave-Server
 server-id=2
@@ -28,11 +31,15 @@ expire-logs-days=10
 read_only=1
 
 ###
+stop slave;
+
 change master to
 master_host='IP-of-Master',
 master_user='Your-Username',
 master_password='Your-Password',
 master_log_file='Your-File-Name',
 master_log_pos=You-Number;
+
+start slave;
 
 show slave status\G;
